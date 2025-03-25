@@ -2,9 +2,31 @@
 <head>
     <meta charset="UTF-8">
     <title>立flag | FCGame</title>
-
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .play-button {
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .play-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    222
+    <button class="play-button" onclick="window.location.href='src/index.html'">开始游戏</button>
 </body>
 </html>
