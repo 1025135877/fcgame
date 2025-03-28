@@ -1,126 +1,697 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>导航网站 | FCGame</title>
+    <title>刘毅强的导航小站 | FCGame</title>
     <!-- 添加Font Awesome图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: url('png/index.jpg') no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
             padding: 20px;
+            color: #333;
+            opacity: 0;
+            animation: pageLoad 0.8s ease-in forwards;
         }
+        
+        @keyframes pageLoad {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .search-box {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .search-box input {
-            width: 60%;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #4CAF50;
+            background-color: rgba(255, 255, 255, 0.92);
             border-radius: 25px;
-            outline: none;
+            padding: 30px;
+            max-width: 1400px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+            border: 3px solid rgba(76, 175, 80, 0.1);
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .nav-section {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 2px solid rgba(76, 175, 80, 0.08);
+            min-height: 300px;
+            overflow: hidden;
+            position: relative;
         }
+        
+        .nav-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(76, 175, 80, 0.03) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.03) 75%),
+                        linear-gradient(45deg, rgba(76, 175, 80, 0.03) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.03) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .nav-section:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(76, 175, 80, 0.15);
+            border-color: rgba(76, 175, 80, 0.2);
+        }
+        
         .nav-title {
-            color: #4CAF50;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 10px;
-            margin-top: 0;
+            color: #2E7D32;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            padding-bottom: 12px;
+            border-bottom: 2px dashed rgba(76, 175, 80, 0.2);
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
+        
+        .nav-title i {
+            margin-right: 12px;
+            font-size: 24px;
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
         .nav-links {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 15px; /* 增大间距 */
         }
         .nav-link {
             color: #333;
             text-decoration: none;
-            padding: 8px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            padding: 14px 18px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            min-width: 140px;
+            background-color: rgba(249, 249, 249, 0.8);
+            border: 2px solid transparent;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
         }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .nav-link:hover::before {
+            left: 100%;
+        }
+        
         .nav-link:hover {
-            background-color: #f0f0f0;
+            background-color: rgba(76, 175, 80, 0.08);
+            transform: translateX(5px) scale(1.02);
+            border-color: rgba(76, 175, 80, 0.2);
         }
+        
         .nav-link i {
-            margin-right: 8px;
-            width: 20px;
+            margin-right: 12px;
+            width: 26px;
             text-align: center;
+            color: #4CAF50;
+            font-size: 1.2em;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
         }
-        .game-button {
+        
+        .nav-link:hover i {
+            transform: scale(1.2) rotate(5deg);
+            color: #2E7D32;
+        }
+        
+        /* 优化搜索框样式 */
+        .search-box {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 65%;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.12);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.97);
+            border: 3px solid rgba(76, 175, 80, 0.15);
+            backdrop-filter: blur(10px);
+            height: 62px;
+        }
+        
+        .search-wrapper:hover {
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.2);
+            transform: translateY(-3px);
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+        
+        .engine-select {
+            position: relative;
+            min-width: 130px;
+            height: 100%;
+            border-right: 3px solid rgba(76, 175, 80, 0.15);
+            display: flex;
+            align-items: center;
+            background: rgba(76, 175, 80, 0.05);
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+        
+        .engine-select:hover {
+            background: rgba(76, 175, 80, 0.08);
+        }
+        
+        .engine-select select {
+            appearance: none;
+            width: 100%;
+            height: 100%;
+            padding: 0 40px 0 20px;
+            border: none;
+            background: transparent;
+            color: #2E7D32;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-align: left;
+            line-height: 62px;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        .engine-select i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #4CAF50;
+            font-size: 18px;
+            transition: all 0.3s;
+            animation: sparkle 2s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+            50% { transform: translateY(-50%) scale(1.2) rotate(180deg); }
+        }
+        
+        #search-form {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0;
+        }
+        
+        #search-form input {
+            width: 100%;
+            height: 100%;
+            padding: 0 60px 0 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #333;
+            background: transparent;
+            transition: all 0.3s;
+            line-height: 62px;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        #search-form input::placeholder {
+            color: #888;
+            font-weight: 400;
+            transition: all 0.3s;
+            line-height: 62px;
+        }
+        
+        #search-form input:focus::placeholder {
+            opacity: 0.7;
+            transform: translateX(5px);
+        }
+        
+        #search-form button {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: white;
+            font-size: 18px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            box-shadow: 0 3px 8px rgba(76, 175, 80, 0.25);
+        }
+        
+        #search-form button:hover {
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 5px 12px rgba(76, 175, 80, 0.35);
+            background: linear-gradient(135deg, #43A047, #7CB342);
+        }
+        
+        #search-form button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        #search-form button i {
+            animation: searchBounce 2s infinite;
+        }
+        
+        @keyframes searchBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        
+        /* 游戏图标样式 */
+        .game-icon {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        
+        .game-icon:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+            background: linear-gradient(135deg, #43A047, #7CB342);
+        }
+        
+        .game-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            opacity: 0;
+            transform: scale(1);
+            animation: ripple 2s infinite;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(76, 175, 80, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+        
+        /* 添加页脚 */
+        .footer {
             grid-column: 1 / -1;
             text-align: center;
             margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            color: #777;
+            font-size: 14px;
         }
-        .play-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s;
         }
-        .play-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        
+        .footer a:hover {
+            color: #2E7D32;
+            text-decoration: underline;
+        }
+        
+        /* 添加页面标题 */
+        .page-title {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2E7D32;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .page-title i {
+            margin-right: 10px;
+            color: #4CAF50;
+            animation: spin 10s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
+
 </head>
 <body>
 <div class="container">
-    <div class="search-box">
-        <form action="https://www.baidu.com/s" target="_blank">
-            <input type="text" name="wd" placeholder="百度搜索...">
-        </form>
-    </div>
+    <h1 class="page-title">
+        <i class="fas fa-star"></i>
+        刘毅强的导航小站
+        <i class="fas fa-heart"></i>
+    </h1>
 
-    <div class="nav-section">
-        <h2 class="nav-title">视频网站</h2>
-        <div class="nav-links">
-            <a href="https://www.bilibili.com" class="nav-link" target="_blank"><i class="fab fa-bilibili"></i>哔哩哔哩</a>
-            <a href="https://www.youtube.com" class="nav-link" target="_blank"><i class="fab fa-youtube"></i>YouTube</a>
-            <a href="https://v.qq.com" class="nav-link" target="_blank"><i class="fas fa-play"></i>腾讯视频</a>
-            <a href="https://www.iqiyi.com" class="nav-link" target="_blank"><i class="fas fa-film"></i>爱奇艺</a>
-            <a href="https://www.youku.com" class="nav-link" target="_blank"><i class="fas fa-tv"></i>优酷</a>
-            <a href="https://www.acfun.cn" class="nav-link" target="_blank"><i class="fas fa-video"></i>AcFun</a>
+    <div class="search-box">
+        <div class="search-wrapper">
+            <div class="engine-select">
+                <select id="engine-select">
+                    <option value="baidu">百度一下</option>
+                    <option value="google">Google</option>
+                    <option value="bing">必应</option>
+                </select>
+                <i class="fas fa-magic"></i>
+            </div>
+            <div id="search-form">
+                <input type="text" name="q" placeholder="输入关键词，按回车搜索 (。・∀・)ノ">
+                <button id="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- JavaScript -->
+    <script>
+        // 搜索函数
+        function performSearch() {
+            const query = document.querySelector('#search-form input').value;
+            const engine = document.getElementById('engine-select').value;
+
+            if (!query.trim()) return; // 防止空查询
+
+            let url;
+            switch(engine) {
+                case 'baidu': url = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`; break;
+                case 'google': url = `https://www.google.com/search?q=${encodeURIComponent(query)}`; break;
+                case 'bing': url = `https://www.bing.com/search?q=${encodeURIComponent(query)}`; break;
+            }
+
+            window.open(url, '_blank');
+        }
+
+        // 点击搜索按钮时触发搜索
+        document.getElementById('search-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            performSearch();
+        });
+
+        // 在输入框按回车时触发搜索
+        document.querySelector('#search-form input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+
+        // 添加自动聚焦搜索框功能
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#search-form input').focus();
+        });
+    </script>
+
+    <!-- 替换原有的Font Awesome CDN引用 -->
+    <link rel="stylesheet" href="assets/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
+
+    <!-- 在nav-section中添加更清晰的图标 -->
     <div class="nav-section">
-        <h2 class="nav-title">开发资源</h2>
+        <h2 class="nav-title"><i class="fas fa-film"></i>视频网站</h2>
+        <div class="nav-links">
+            <a href="https://www.bilibili.com" class="nav-link" target="_blank">
+                <i class="fab fa-bilibili"></i>哔哩哔哩
+            </a>
+            <a href="https://www.youtube.com" class="nav-link" target="_blank">
+                <i class="fab fa-youtube"></i>YouTube
+            </a>
+            <a href="https://v.qq.com" class="nav-link" target="_blank">
+                <i class="fas fa-play-circle"></i>腾讯视频
+            </a>
+            <a href="https://www.iqiyi.com" class="nav-link" target="_blank">
+                <i class="fas fa-film"></i>爱奇艺
+            </a>
+            <a href="https://www.douyin.com" class="nav-link" target="_blank">
+                <i class="fas fa-music"></i>抖音
+            </a>
+            <a href="https://www.netflix.com" class="nav-link" target="_blank">
+                <i class="fas fa-tv"></i>Netflix
+            </a>
+        </div>
+    </div>
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-code"></i>开发资源</h2>
         <div class="nav-links">
             <a href="https://github.com" class="nav-link" target="_blank"><i class="fab fa-github"></i>GitHub</a>
             <a href="https://stackoverflow.com" class="nav-link" target="_blank"><i class="fab fa-stack-overflow"></i>Stack Overflow</a>
             <a href="https://developer.mozilla.org" class="nav-link" target="_blank"><i class="fab fa-firefox"></i>MDN Web Docs</a>
             <a href="https://www.runoob.com" class="nav-link" target="_blank"><i class="fas fa-code"></i>菜鸟教程</a>
             <a href="https://leetcode.cn" class="nav-link" target="_blank"><i class="fas fa-laptop-code"></i>力扣</a>
-            <a href="https://www.npmjs.com" class="nav-link" target="_blank"><i class="fab fa-node-js"></i>npm</a>
+            <a href="https://juejin.cn" class="nav-link" target="_blank"><i class="fas fa-gem"></i>掘金</a>
         </div>
     </div>
 
-    <div class="game-button">
-        <button class="play-button" onclick="window.location.href='game/index.html'">开始游戏</button>
+    <!-- 在现有nav-section后添加以下编程相关分类 -->
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-graduation-cap"></i>学习平台</h2>
+        <div class="nav-links">
+            <a href="https://www.udemy.com" class="nav-link" target="_blank"><i class="fas fa-chalkboard-teacher"></i>Udemy</a>
+            <a href="https://www.coursera.org" class="nav-link" target="_blank"><i class="fas fa-university"></i>Coursera</a>
+            <a href="https://www.edx.org" class="nav-link" target="_blank"><i class="fas fa-book"></i>edX</a>
+            <a href="https://study.163.com" class="nav-link" target="_blank"><i class="fas fa-graduation-cap"></i>网易云课堂</a>
+            <a href="https://mooc.cn" class="nav-link" target="_blank"><i class="fas fa-laptop"></i>中国大学MOOC</a>
+            <a href="https://www.bilibili.com/v/knowledge" class="nav-link" target="_blank"><i class="fab fa-bilibili"></i>B站知识区</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-tools"></i>开发工具</h2>
+        <div class="nav-links">
+            <a href="https://code.visualstudio.com" class="nav-link" target="_blank"><i class="fas fa-code"></i>VS Code</a>
+            <a href="https://www.jetbrains.com" class="nav-link" target="_blank"><i class="fas fa-window-restore"></i>JetBrains</a>
+            <a href="https://git-scm.com" class="nav-link" target="_blank"><i class="fab fa-git-alt"></i>Git</a>
+            <a href="https://nodejs.org" class="nav-link" target="_blank"><i class="fab fa-node-js"></i>Node.js</a>
+            <a href="https://www.postman.com" class="nav-link" target="_blank"><i class="fas fa-paper-plane"></i>Postman</a>
+            <a href="https://www.docker.com" class="nav-link" target="_blank"><i class="fab fa-docker"></i>Docker</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-users"></i>技术社区</h2>
+        <div class="nav-links">
+            <a href="https://segmentfault.com" class="nav-link" target="_blank"><i class="fas fa-comments"></i>SegmentFault</a>
+            <a href="https://www.v2ex.com" class="nav-link" target="_blank"><i class="fas fa-comment-dots"></i>V2EX</a>
+            <a href="https://www.csdn.net" class="nav-link" target="_blank"><i class="fas fa-blog"></i>CSDN</a>
+            <a href="https://www.zhihu.com" class="nav-link" target="_blank"><i class="fas fa-question-circle"></i>知乎</a>
+            <a href="https://www.infoq.cn" class="nav-link" target="_blank"><i class="fas fa-newspaper"></i>InfoQ</a>
+            <a href="https://oschina.net" class="nav-link" target="_blank"><i class="fas fa-code-branch"></i>开源中国</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-cloud"></i>云服务</h2>
+        <div class="nav-links">
+            <a href="https://www.aliyun.com" class="nav-link" target="_blank"><i class="fas fa-cloud"></i>阿里云</a>
+            <a href="https://cloud.tencent.com" class="nav-link" target="_blank"><i class="fas fa-cloud"></i>腾讯云</a>
+            <a href="https://www.huaweicloud.com" class="nav-link" target="_blank"><i class="fas fa-cloud"></i>华为云</a>
+            <a href="https://cloud.google.com" class="nav-link" target="_blank"><i class="fab fa-google"></i>Google Cloud</a>
+            <a href="https://aws.amazon.com" class="nav-link" target="_blank"><i class="fab fa-aws"></i>AWS</a>
+            <a href="https://azure.microsoft.com" class="nav-link" target="_blank"><i class="fab fa-microsoft"></i>Azure</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-code-branch"></i>代码托管</h2>
+        <div class="nav-links">
+            <a href="https://github.com" class="nav-link" target="_blank"><i class="fab fa-github"></i>GitHub</a>
+            <a href="https://gitlab.com" class="nav-link" target="_blank"><i class="fab fa-gitlab"></i>GitLab</a>
+            <a href="https://gitee.com" class="nav-link" target="_blank"><i class="fas fa-code-branch"></i>Gitee</a>
+            <a href="https://bitbucket.org" class="nav-link" target="_blank"><i class="fab fa-bitbucket"></i>Bitbucket</a>
+            <a href="https://sourceforge.net" class="nav-link" target="_blank"><i class="fas fa-archive"></i>SourceForge</a>
+            <a href="https://www.coding.net" class="nav-link" target="_blank"><i class="fas fa-code"></i>Coding</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-share-alt"></i>社交媒体</h2>
+        <div class="nav-links">
+            <a href="https://weibo.com" class="nav-link" target="_blank"><i class="fab fa-weibo"></i>微博</a>
+            <a href="https://www.douban.com" class="nav-link" target="_blank"><i class="fas fa-book"></i>豆瓣</a>
+            <a href="https://www.xiaohongshu.com" class="nav-link" target="_blank"><i class="fas fa-bookmark"></i>小红书</a>
+            <a href="https://www.toutiao.com" class="nav-link" target="_blank"><i class="fas fa-newspaper"></i>今日头条</a>
+            <a href="https://tieba.baidu.com" class="nav-link" target="_blank"><i class="fas fa-users"></i>百度贴吧</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-shopping-bag"></i>购物平台</h2>
+        <div class="nav-links">
+            <a href="https://www.taobao.com" class="nav-link" target="_blank"><i class="fas fa-shopping-cart"></i>淘宝</a>
+            <a href="https://www.jd.com" class="nav-link" target="_blank"><i class="fas fa-box"></i>京东</a>
+            <a href="https://www.pinduoduo.com" class="nav-link" target="_blank"><i class="fas fa-store"></i>拼多多</a>
+            <a href="https://www.suning.com" class="nav-link" target="_blank"><i class="fas fa-tag"></i>苏宁易购</a>
+            <a href="https://www.amazon.cn" class="nav-link" target="_blank"><i class="fab fa-amazon"></i>亚马逊</a>
+            <a href="https://www.dangdang.com" class="nav-link" target="_blank"><i class="fas fa-book-open"></i>当当</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-tools"></i>实用工具</h2>
+        <div class="nav-links">
+            <a href="https://www.baidu.com" class="nav-link" target="_blank"><i class="fas fa-search"></i>百度</a>
+            <a href="https://www.google.com" class="nav-link" target="_blank"><i class="fab fa-google"></i>Google</a>
+            <a href="https://translate.google.com" class="nav-link" target="_blank"><i class="fas fa-language"></i>翻译</a>
+            <a href="https://www.office.com" class="nav-link" target="_blank"><i class="fas fa-file-word"></i>Office</a>
+            <a href="https://www.wps.cn" class="nav-link" target="_blank"><i class="fas fa-file-alt"></i>WPS</a>
+            <a href="https://www.yuque.com" class="nav-link" target="_blank"><i class="fas fa-book"></i>语雀</a>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-cloud"></i>云存储</h2>
+        <div class="nav-links">
+            <a href="https://pan.baidu.com" class="nav-link" target="_blank"><i class="fas fa-cloud"></i>百度网盘</a>
+            <a href="https://www.aliyundrive.com" class="nav-link" target="_blank"><i class="fas fa-database"></i>阿里云盘</a>
+            <a href="https://cloud.189.cn" class="nav-link" target="_blank"><i class="fas fa-hdd"></i>天翼云盘</a>
+            <a href="https://www.123pan.com" class="nav-link" target="_blank"><i class="fas fa-save"></i>123云盘</a>
+            <a href="https://www.terabox.com" class="nav-link" target="_blank"><i class="fas fa-box-open"></i>TeraBox</a>
+            <a href="https://www.dropbox.com" class="nav-link" target="_blank"><i class="fab fa-dropbox"></i>Dropbox</a>
+        </div>
+    </div>
+    <!-- 删除原有的.game-button div -->
+
+    <!-- 在body结束前添加游戏图标 -->
+    <div class="game-icon" onclick="window.location.href='game/index.html'">
+        <i class="fas fa-gamepad"></i>
+    </div>
+    
+    <!-- 添加页脚
+    <div class="footer">
+        <p>© 2023 FCGame 导航 | <a href="#">关于我们</a> | <a href="#">联系方式</a></p>
+    </div> -->
+
+    <!-- 添加AI分类 -->
+    <div class="nav-section">
+        <h2 class="nav-title"><i class="fas fa-robot"></i>AI工具</h2>
+        <div class="nav-links">
+            <a href="https://chat.openai.com" class="nav-link" target="_blank">
+                <i class="fas fa-comment-dots"></i>ChatGPT
+            </a>
+            <a href="https://www.midjourney.com" class="nav-link" target="_blank">
+                <i class="fas fa-paint-brush"></i>Midjourney
+            </a>
+            <a href="https://bard.google.com" class="nav-link" target="_blank">
+                <i class="fab fa-google"></i>Google Bard
+            </a>
+            <a href="https://www.bing.com/chat" class="nav-link" target="_blank">
+                <i class="fab fa-microsoft"></i>Bing Chat
+            </a>
+            <a href="https://www.notion.so/product/ai" class="nav-link" target="_blank">
+                <i class="fas fa-book-open"></i>Notion AI
+            </a>
+            <a href="https://stability.ai" class="nav-link" target="_blank">
+                <i class="fas fa-image"></i>Stable Diffusion
+            </a>
+        </div>
     </div>
 </div>
 </body>
 </html>
+
