@@ -1,224 +1,450 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>刘毅强的导航小站 | FCGame</title>
     <!-- 添加Font Awesome图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: url('png/index.jpg') no-repeat center center fixed;
-            background-size: cover;
+        :root {
+            --primary-color: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary-color: #ec4899;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(99, 102, 241, 0.3);
+        }
+
+        * {
             margin: 0;
-            padding: 20px;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
             opacity: 0;
             animation: pageLoad 0.8s ease-in forwards;
         }
-        
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 动态背景粒子 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.3;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 20s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 18s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 22s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 16s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 3s; animation-duration: 25s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 19s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 2.5s; animation-duration: 21s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 1.5s; animation-duration: 17s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 4.5s; animation-duration: 23s; }
+        .particle:nth-child(10) { left: 15%; animation-delay: 3.5s; animation-duration: 24s; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
         @keyframes pageLoad {
             from { opacity: 0; transform: scale(0.98); }
             to { opacity: 1; transform: scale(1); }
         }
-        
+
         .container {
-            background-color: rgba(255, 255, 255, 0.92);
-            border-radius: 25px;
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
             padding: 30px;
-            max-width: 1400px;
-            margin: 20px auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
             animation: fadeIn 0.8s ease-out;
-            border: 3px solid rgba(76, 175, 80, 0.1);
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
+        /* 头部区域 */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 8px 32px var(--shadow-color);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
+        }
+
+        .site-info h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .site-info .greeting {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .time-weather {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .current-time {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-display {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .date-display {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-color);
+        }
+
+        .weather-info i {
+            font-size: 24px;
+        }
+
+        .theme-toggle {
+            width: 48px;
+            height: 48px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            transform: rotate(180deg);
+        }
+
         .nav-section {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 28px;
+            border: 1px solid var(--glass-border);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 2px solid rgba(76, 175, 80, 0.08);
-            min-height: 300px;
+            min-height: 280px;
             overflow: hidden;
             position: relative;
         }
-        
+
         .nav-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-section:hover::before {
+            opacity: 1;
+        }
+
+        .nav-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .nav-title {
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-title i {
+            font-size: 20px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-section:nth-child(odd) .nav-title i {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+        }
+
+        .nav-section:nth-child(even) .nav-title i {
+            background: linear-gradient(135deg, var(--secondary-color), #f472b6);
+            color: white;
+        }
+
+        .nav-section:hover .nav-title i {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 14px 16px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(76, 175, 80, 0.03) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.03) 75%),
-                        linear-gradient(45deg, rgba(76, 175, 80, 0.03) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.03) 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            opacity: 0.5;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
             z-index: 0;
         }
 
-        .nav-section:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(76, 175, 80, 0.15);
-            border-color: rgba(76, 175, 80, 0.2);
-        }
-        
-        .nav-title {
-            color: #2E7D32;
-            font-size: 20px;
-            font-weight: 600;
-            margin: 0 0 20px 0;
-            padding-bottom: 12px;
-            border-bottom: 2px dashed rgba(76, 175, 80, 0.2);
-            display: flex;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .nav-title i {
-            margin-right: 12px;
-            font-size: 24px;
-            color: #4CAF50;
-            background: rgba(76, 175, 80, 0.1);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        .nav-links {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px; /* 增大间距 */
-        }
-        .nav-link {
-            color: #333;
-            text-decoration: none;
-            padding: 14px 18px;
-            border-radius: 12px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-            min-width: 140px;
-            background-color: rgba(249, 249, 249, 0.8);
-            border: 2px solid transparent;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-        }
-        
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.1), transparent);
-            transition: 0.5s;
-            z-index: -1;
-        }
-        
         .nav-link:hover::before {
-            left: 100%;
+            opacity: 0.1;
         }
-        
+
         .nav-link:hover {
-            background-color: rgba(76, 175, 80, 0.08);
-            transform: translateX(5px) scale(1.02);
-            border-color: rgba(76, 175, 80, 0.2);
+            color: var(--text-primary);
+            border-color: var(--primary-color);
+            transform: translateX(5px);
         }
-        
+
         .nav-link i {
-            margin-right: 12px;
-            width: 26px;
+            width: 24px;
             text-align: center;
-            color: #4CAF50;
-            font-size: 1.2em;
+            font-size: 16px;
+            color: var(--primary-light);
             flex-shrink: 0;
             transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
-        
+
+        .nav-link span {
+            position: relative;
+            z-index: 1;
+            font-size: 14px;
+        }
+
         .nav-link:hover i {
-            transform: scale(1.2) rotate(5deg);
-            color: #2E7D32;
+            transform: scale(1.2);
+            color: var(--secondary-color);
         }
-        
-        /* 优化搜索框样式 */
+
+        /* 搜索框样式 */
         .search-box {
             grid-column: 1 / -1;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             animation: slideDown 0.6s ease-out;
         }
-        
+
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .search-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 65%;
-            max-width: 700px;
+            width: 70%;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
-            border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.12);
+            border-radius: 20px;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.97);
-            border: 3px solid rgba(76, 175, 80, 0.15);
-            backdrop-filter: blur(10px);
-            height: 62px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            height: 64px;
         }
-        
+
+        .search-wrapper:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 20px 60px rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
         .search-wrapper:hover {
-            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.2);
-            transform: translateY(-3px);
-            border-color: rgba(76, 175, 80, 0.3);
+            border-color: var(--primary-light);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.15);
         }
-        
+
         .engine-select {
             position: relative;
-            min-width: 130px;
+            min-width: 140px;
             height: 100%;
-            border-right: 3px solid rgba(76, 175, 80, 0.15);
+            border-right: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
-            background: rgba(76, 175, 80, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             transition: all 0.3s ease;
             padding: 0;
         }
-        
+
         .engine-select:hover {
-            background: rgba(76, 175, 80, 0.08);
+            background: rgba(255, 255, 255, 0.06);
         }
-        
+
         .engine-select select {
             appearance: none;
             width: 100%;
@@ -226,34 +452,29 @@
             padding: 0 40px 0 20px;
             border: none;
             background: transparent;
-            color: #2E7D32;
-            font-size: 16px;
+            color: var(--text-primary);
+            font-size: 15px;
             cursor: pointer;
             outline: none;
             font-weight: 500;
-            transition: all 0.3s;
-            text-align: left;
-            line-height: 62px;
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-family: inherit;
         }
-        
+
+        .engine-select select option {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
         .engine-select i {
             position: absolute;
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
-            color: #4CAF50;
-            font-size: 18px;
-            transition: all 0.3s;
-            animation: sparkle 2s infinite;
+            color: var(--primary-light);
+            font-size: 14px;
         }
-        
-        @keyframes sparkle {
-            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
-            50% { transform: translateY(-50%) scale(1.2) rotate(180deg); }
-        }
-        
+
         #search-form {
             flex: 1;
             height: 100%;
@@ -262,226 +483,155 @@
             position: relative;
             padding: 0;
         }
-        
+
         #search-form input {
             width: 100%;
             height: 100%;
-            padding: 0 60px 0 20px;
+            padding: 0 70px 0 20px;
             border: none;
             outline: none;
             font-size: 16px;
-            color: #333;
+            color: var(--text-primary);
             background: transparent;
-            transition: all 0.3s;
-            line-height: 62px;
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-family: inherit;
         }
-        
+
         #search-form input::placeholder {
-            color: #888;
-            font-weight: 400;
-            transition: all 0.3s;
-            line-height: 62px;
+            color: var(--text-secondary);
         }
-        
-        #search-form input:focus::placeholder {
-            opacity: 0.7;
-            transform: translateX(5px);
-        }
-        
+
         #search-form button {
             position: absolute;
-            right: 15px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
             border: none;
             cursor: pointer;
-            padding: 0;
             color: white;
             font-size: 18px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 42px;
-            height: 42px;
-            box-shadow: 0 3px 8px rgba(76, 175, 80, 0.25);
+            width: 44px;
+            height: 44px;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
-        
+
         #search-form button:hover {
-            transform: translateY(-50%) scale(1.08);
-            box-shadow: 0 5px 12px rgba(76, 175, 80, 0.35);
-            background: linear-gradient(135deg, #43A047, #7CB342);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px var(--shadow-color);
         }
-        
+
         #search-form button:active {
             transform: translateY(-50%) scale(0.95);
         }
-        
-        #search-form button i {
-            animation: searchBounce 2s infinite;
-        }
-        
-        @keyframes searchBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-        
-        /* 游戏图标样式 */
+
+        /* 游戏浮动按钮 */
         .game-icon {
             position: fixed;
             bottom: 40px;
             right: 40px;
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
-            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 26px;
-            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            font-size: 28px;
+            box-shadow: 0 10px 40px var(--shadow-color);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
-            animation: pulse 2s infinite;
         }
-        
+
         .game-icon:hover {
-            transform: scale(1.15);
-            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
-            background: linear-gradient(135deg, #43A047, #7CB342);
+            transform: scale(1.1) rotate(-10deg);
+            box-shadow: 0 15px 50px var(--shadow-color);
         }
-        
-        .game-icon::after {
+
+        .game-icon::before {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            inset: -3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            border-radius: 22px;
+            z-index: -1;
             opacity: 0;
-            transform: scale(1);
-            animation: ripple 2s infinite;
+            transition: opacity 0.3s ease;
+            animation: borderRotate 3s linear infinite;
         }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-            100% {
-                transform: scale(2.5);
-                opacity: 0;
-            }
+
+        .game-icon:hover::before {
+            opacity: 1;
         }
-        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
-            }
-            70% {
-                box-shadow: 0 0 0 20px rgba(76, 175, 80, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
-            }
+
+        @keyframes borderRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
-        
-        /* 添加页脚 */
-        .footer {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            color: #777;
-            font-size: 14px;
-        }
-        
-        .footer a {
-            color: #4CAF50;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer a:hover {
-            color: #2E7D32;
-            text-decoration: underline;
-        }
-        
-        /* 添加页面标题 */
+
+        /* 页面标题 */
         .page-title {
             grid-column: 1 / -1;
             text-align: center;
-            margin-bottom: 30px;
-            color: #2E7D32;
-            font-size: 32px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: titleFloat 3s ease-in-out infinite;
-        }
-        
-        @keyframes titleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .page-title i {
-            margin-right: 10px;
-            color: #4CAF50;
-            animation: spin 10s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            margin-bottom: 20px;
+            display: none;
         }
 
         /* 游戏中心样式 */
         .game-center {
             grid-column: 1 / -1;
-            background: white;
-            border-radius: 25px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
             padding: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            animation: fadeIn 0.8s ease-out;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 20px;
         }
 
         .section-title {
             text-align: center;
-            color: #2E7D32;
-            font-size: 36px;
-            font-weight: bold;
+            font-size: 32px;
+            font-weight: 700;
             margin: 0 0 40px 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 16px;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .section-title i {
-            color: #4CAF50;
+            -webkit-text-fill-color: var(--accent-color);
             animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
         }
 
         .game-card {
-            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 20px;
-            padding: 25px;
+            padding: 28px;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 2px solid rgba(76, 175, 80, 0.1);
+            border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -495,12 +645,11 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, transparent 100%);
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 0;
+            transition: opacity 0.3s ease;
         }
 
         .game-card:hover::before {
@@ -508,153 +657,294 @@
         }
 
         .game-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(76, 175, 80, 0.2);
-            border-color: rgba(76, 175, 80, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary-color);
         }
 
         .game-icon-display {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
-            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
             transition: all 0.4s ease;
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
 
         .game-card:hover .game-icon-display {
-            transform: rotate(360deg) scale(1.1);
+            transform: rotate(10deg) scale(1.1);
         }
 
         .game-icon-display i {
-            font-size: 48px;
+            font-size: 40px;
             color: white;
         }
 
         .game-info {
             margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
         }
 
         .game-info h3 {
-            color: #2E7D32;
-            font-size: 22px;
+            color: var(--text-primary);
+            font-size: 20px;
             font-weight: 600;
             margin: 0 0 10px 0;
         }
 
         .game-info p {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 14px;
             line-height: 1.6;
             margin: 0;
         }
 
         .play-btn {
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
             color: white;
             border: none;
-            border-radius: 25px;
-            padding: 12px 30px;
-            font-size: 16px;
+            border-radius: 14px;
+            padding: 14px 32px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-            position: relative;
-            z-index: 1;
+            gap: 10px;
+            box-shadow: 0 4px 20px var(--shadow-color);
         }
 
         .play-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
-            background: linear-gradient(135deg, #43A047, #7CB342);
+            box-shadow: 0 8px 30px var(--shadow-color);
         }
 
-        .play-btn i {
-            font-size: 14px;
-        }
-
-        /* 服务器提示样式 */
-        .server-notice {
+        /* 快捷入口 */
+        .quick-access {
             grid-column: 1 / -1;
-            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
-            border-radius: 15px;
-            padding: 20px;
+            display: flex;
+            gap: 16px;
             margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
-            animation: slideDown 0.5s ease-out, pulse 2s infinite;
-        }
-
-        .notice-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .notice-content i.fa-exclamation-triangle {
-            font-size: 24px;
-            animation: bounce 1s infinite;
-        }
-
-        .notice-content code {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-        }
-
-        .notice-content button {
-            margin-left: auto;
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
         }
 
-        .notice-content button:hover {
-            background: rgba(255, 255, 255, 0.5);
-            transform: scale(1.1);
+        .quick-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        .quick-btn i {
+            font-size: 18px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .search-wrapper {
+                width: 100%;
+                flex-direction: column;
+                height: auto;
+            }
+
+            .engine-select {
+                width: 100%;
+                min-width: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+                height: 50px;
+            }
+
+            #search-form {
+                width: 100%;
+                height: 56px;
+            }
+
+            .nav-links {
+                grid-template-columns: 1fr;
+            }
+
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-access {
+                flex-direction: column;
+            }
+
+            .quick-btn {
+                justify-content: center;
+            }
+
+            .game-icon {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            .time-weather {
+                display: none;
+            }
+        }
+
+        /* 页脚 */
+        .footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 30px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: var(--primary-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-light);
         }
     </style>
 
 </head>
 <body>
+<!-- 背景粒子 -->
+<div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+</div>
+
 <div class="container">
+    <!-- 新头部 -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <div class="site-info">
+                <h1>刘毅强的导航小站</h1>
+                <div class="greeting" id="greeting">欢迎访问</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="time-weather">
+                <div class="current-time">
+                    <div class="time-display" id="currentTime">00:00</div>
+                    <div class="date-display" id="currentDate">加载中...</div>
+                </div>
+                <div class="weather-info">
+                    <i class="fas fa-sun"></i>
+                    <span>晴</span>
+                </div>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="切换主题">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </div>
+
     <h1 class="page-title">
         <i class="fas fa-star"></i>
         刘毅强的导航小站
         <i class="fas fa-heart"></i>
     </h1>
 
-
-    <script>
-        // 检测是否通过file://协议访问
-        if (window.location.protocol === 'file:') {
-            document.getElementById('serverNotice').style.display = 'block';
-        }
-    </script>
+    <!-- 快捷入口 -->
+    <div class="quick-access">
+        <a href="https://github.com" class="quick-btn" target="_blank">
+            <i class="fab fa-github"></i>
+            <span>GitHub</span>
+        </a>
+        <a href="https://www.bilibili.com" class="quick-btn" target="_blank">
+            <i class="fab fa-bilibili"></i>
+            <span>哔哩哔哩</span>
+        </a>
+        <a href="https://chat.openai.com" class="quick-btn" target="_blank">
+            <i class="fas fa-robot"></i>
+            <span>ChatGPT</span>
+        </a>
+        <a href="https://www.google.com" class="quick-btn" target="_blank">
+            <i class="fab fa-google"></i>
+            <span>Google</span>
+        </a>
+        <a href="game/index.html" class="quick-btn">
+            <i class="fas fa-gamepad"></i>
+            <span>游戏中心</span>
+        </a>
+    </div>
 
     <div class="search-box">
         <div class="search-wrapper">
@@ -664,10 +954,10 @@
                     <option value="google">Google</option>
                     <option value="bing">必应</option>
                 </select>
-                <i class="fas fa-magic"></i>
+                <i class="fas fa-chevron-down"></i>
             </div>
             <div id="search-form">
-                <input type="text" name="q" placeholder="输入关键词，按回车搜索 (。・∀・)ノ">
+                <input type="text" name="q" placeholder="搜索你想要的内容...">
                 <button id="search-button">
                     <i class="fas fa-search"></i>
                 </button>
@@ -822,9 +1112,50 @@
             }
         });
 
-        // 添加自动聚焦搜索框功能
+        // 更新时间显示
+        function updateTime() {
+            const now = new Date();
+            const timeDisplay = document.getElementById('currentTime');
+            const dateDisplay = document.getElementById('currentDate');
+
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            timeDisplay.textContent = `${hours}:${minutes}`;
+
+            const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const weekDay = weekDays[now.getDay()];
+            dateDisplay.textContent = `${month}月${day}日 ${weekDay}`;
+        }
+
+        // 更新问候语
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const greetingEl = document.getElementById('greeting');
+            let greeting = '';
+
+            if (hour >= 5 && hour < 12) {
+                greeting = '早上好，新的一天开始了';
+            } else if (hour >= 12 && hour < 14) {
+                greeting = '中午好，记得吃午饭';
+            } else if (hour >= 14 && hour < 18) {
+                greeting = '下午好，继续加油';
+            } else if (hour >= 18 && hour < 22) {
+                greeting = '晚上好，放松一下吧';
+            } else {
+                greeting = '夜深了，注意休息';
+            }
+
+            greetingEl.textContent = greeting;
+        }
+
+        // 初始化
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('#search-form input').focus();
+            updateTime();
+            updateGreeting();
+            setInterval(updateTime, 1000);
         });
     </script>
 

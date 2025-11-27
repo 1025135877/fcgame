@@ -15,7 +15,9 @@
       "Bash(npm run xlsx2json:*)",
       "Bash(npm install:*)",
       "Bash(npx tsc:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(dir:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
