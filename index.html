@@ -440,6 +440,203 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
+        /* 游戏中心样式 */
+        .game-center {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #2E7D32;
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0 0 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            color: #4CAF50;
+            animation: bounce 2s infinite;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 2px solid rgba(76, 175, 80, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(76, 175, 80, 0.2);
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+
+        .game-icon-display {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+
+        .game-card:hover .game-icon-display {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .game-icon-display i {
+            font-size: 48px;
+            color: white;
+        }
+
+        .game-info {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-info h3 {
+            color: #2E7D32;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+        }
+
+        .game-info p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+            background: linear-gradient(135deg, #43A047, #7CB342);
+        }
+
+        .play-btn i {
+            font-size: 14px;
+        }
+
+        /* 服务器提示样式 */
+        .server-notice {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+            animation: slideDown 0.5s ease-out, pulse 2s infinite;
+        }
+
+        .notice-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .notice-content i.fa-exclamation-triangle {
+            font-size: 24px;
+            animation: bounce 1s infinite;
+        }
+
+        .notice-content code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .notice-content button {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notice-content button:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
     </style>
 
 </head>
@@ -450,6 +647,14 @@
         刘毅强的导航小站
         <i class="fas fa-heart"></i>
     </h1>
+
+
+    <script>
+        // 检测是否通过file://协议访问
+        if (window.location.protocol === 'file:') {
+            document.getElementById('serverNotice').style.display = 'block';
+        }
+    </script>
 
     <div class="search-box">
         <div class="search-wrapper">
@@ -465,6 +670,120 @@
                 <input type="text" name="q" placeholder="输入关键词，按回车搜索 (。・∀・)ノ">
                 <button id="search-button">
                     <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 游戏中心 -->
+    <div class="game-center">
+        <h2 class="section-title">
+            <i class="fas fa-gamepad"></i>
+            游戏中心
+            <i class="fas fa-star"></i>
+        </h2>
+        <div class="game-grid">
+            <div class="game-card" onclick="window.location.href='games/hextris/index.html'">
+                <div class="game-icon-display">
+                    <i class="fas fa-shapes"></i>
+                </div>
+                <div class="game-info">
+                    <h3>Hextris</h3>
+                    <p>六边形俄罗斯方块,挑战你的反应速度!</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-play"></i> 开始游戏
+                </button>
+            </div>
+
+            <div class="game-card" onclick="window.location.href='games/adarkroom/index.html?lang=zh_cn'">
+                <div class="game-icon-display">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="game-info">
+                    <h3>小黑屋 (A Dark Room)</h3>
+                    <p>极简主义文字冒险游戏,探索未知世界</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-play"></i> 开始游戏
+                </button>
+            </div>
+
+            <div class="game-card" onclick="window.open('https://liferestart.syaro.io/view/index.html', '_blank')">
+                <div class="game-icon-display">
+                    <i class="fas fa-redo-alt"></i>
+                </div>
+                <div class="game-info">
+                    <h3>人生重开模拟器</h3>
+                    <p>模拟人生,体验不同的人生轨迹</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-external-link-alt"></i> 前往游戏
+                </button>
+            </div>
+
+            <div class="game-card" onclick="window.location.href='games/react-tetris/docs/index.html'">
+                <div class="game-icon-display">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <div class="game-info">
+                    <h3>React 俄罗斯方块</h3>
+                    <p>经典俄罗斯方块,支持键盘和触摸操作</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-play"></i> 开始游戏
+                </button>
+            </div>
+
+            <div class="game-card" onclick="window.open('https://proxx.app', '_blank')">
+                <div class="game-icon-display">
+                    <i class="fas fa-bomb"></i>
+                </div>
+                <div class="game-info">
+                    <h3>Proxx</h3>
+                    <p>Google出品的扫雷游戏,支持PWA</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-external-link-alt"></i> 前往游戏
+                </button>
+            </div>
+
+            <div class="game-card" onclick="window.open('https://lichess.org', '_blank')">
+                <div class="game-icon-display">
+                    <i class="fas fa-chess"></i>
+                </div>
+                <div class="game-info">
+                    <h3>Lichess</h3>
+                    <p>免费在线国际象棋平台,无广告</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-external-link-alt"></i> 前往游戏
+                </button>
+            </div>
+
+            <div class="game-card" onclick="window.open('https://habitica.com', '_blank')">
+                <div class="game-icon-display">
+                    <i class="fas fa-dragon"></i>
+                </div>
+                <div class="game-info">
+                    <h3>Habitica</h3>
+                    <p>习惯养成RPG游戏,让生活更有趣</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-external-link-alt"></i> 前往游戏
+                </button>
+            </div>
+
+            <div class="game-card" onclick="window.location.href='game/index.html'">
+                <div class="game-icon-display">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="game-info">
+                    <h3>FC模拟器</h3>
+                    <p>经典红白机游戏,重温童年回忆</p>
+                </div>
+                <button class="play-btn">
+                    <i class="fas fa-play"></i> 开始游戏
                 </button>
             </div>
         </div>
