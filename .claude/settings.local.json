@@ -17,7 +17,8 @@
       "Bash(npx tsc:*)",
       "WebSearch",
       "Bash(dir:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Skill(frontend-design)"
     ],
     "deny": [],
     "ask": []
